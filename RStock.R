@@ -19,7 +19,6 @@ symbols <- stockSymbols()
 symbols <- symbols[,1]
 
 
-
 choices <-
   c(
     "Market Cap","Enterprise Value",
@@ -91,8 +90,8 @@ if (interactive()) {
     
     output$Plot <- renderPlot({
       chartSeries(get(getSymbols(input$Name)), type = input$PlotType, 
-                  theme=chartTheme(input$Color), name=paste(start(data), end(data),sep = " "), TA="addBBands();addEMA()")
-      
+                  name=input$Name,
+                  theme=chartTheme(input$Color),  TA="addBBands();addEMA()")
       zoomChart(paste(input$Range, collapse = "::"))
     })
     
