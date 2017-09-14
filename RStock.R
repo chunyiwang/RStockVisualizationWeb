@@ -1,6 +1,7 @@
 
-A visualization practice of Stock in R using shiny
+
 ```{r}
+##A visualization practice of Stock in R using shiny
 if (!require(quantmod)) {
   stop("This app requires the quantmod package. To install it, run 'install.packages(\"quantmod\")'.\n")
 }
@@ -64,7 +65,10 @@ if (interactive()) {
         mainPanel(
           tabsetPanel(type="tab",tabPanel("Plot",plotOutput("Plot")),
                       tabPanel("Statistics",tableOutput("Stat")),
-                    tabPanel("Return",DT::dataTableOutput("Return")))
+                      tabPanel("Return",
+                               selectInput("ReturnType", label = "Select Return Type", choices = c("yearly",'quarterly',"monthly", "daily")),
+                               submitButton("Apply"),
+                               DT::dataTableOutput("Return")))
           
         )
       )
@@ -78,8 +82,10 @@ if (interactive()) {
     })
     output$Return <- DT:: renderDataTable({
       DT::datatable(
-        datatest <- periodReturn(get(getSymbols(input$Name)),by=years,from='2003-01-01',to='2004-01-01')
-
+        data.frame( a <- periodReturn(get(getSymbols(input$Name)),period=input$ReturnType,from='2007-01-01',to='2011-01-01')
+                    
+        )
+        
         
       )
     })
