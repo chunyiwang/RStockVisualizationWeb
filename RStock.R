@@ -32,6 +32,7 @@ indicators <-
     "Commodity Channel Index"
   )
 
+
 #get data
 if (interactive()) {
   options(device.ask.default = FALSE)
@@ -56,12 +57,8 @@ if (interactive()) {
           
           selectInput("Color", label = "Select Color", choices = c("white","black")),
           
-          checkboxGroupInput("quickstats", "Key Statistics:",
-                             choices),
-          
-          checkboxGroupInput("indicators", "Key Indicators:",
-                             indicators),
-          
+     #     checkboxGroupInput("Indicators", "Key Indicators:",
+   #                          indicators),
           selectInput("PlotType", label = "Plot type", choices = c("candlesticks", "matchsticks", "bars", "line")),
           
           submitButton("Submit")
@@ -70,7 +67,6 @@ if (interactive()) {
         mainPanel(
           tabsetPanel(type="tab",tabPanel("Plot",plotOutput("Plot")),
                       
-                      tabPanel("Statistics",tableOutput("Stat")),
                       
                       tabPanel("Return",
                                selectInput("ReturnType", label = "Select Return Type", choices = c("yearly",'quarterly',"monthly", "daily")),
@@ -87,11 +83,10 @@ if (interactive()) {
   
   
   server <- function(input, output) {
-    
     output$Plot <- renderPlot({
       chartSeries(get(getSymbols(input$Name)), type = input$PlotType, 
                   name=input$Name,
-                  theme=chartTheme(input$Color),  TA="addBBands();addEMA()")
+                  theme=chartTheme(input$Color))
       zoomChart(paste(input$Range, collapse = "::"))
     })
     
@@ -103,10 +98,8 @@ if (interactive()) {
     })
     
     observe({
-      print(input$Range)
       print(input$Name)
       print(input$Tools)
-      print(periodReturn(get(getSymbols(input$Name)),by=years,from='2003-01-01',to='2004-01-01'))
     })
   }
   
