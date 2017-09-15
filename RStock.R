@@ -1,6 +1,5 @@
 
 
-```{r}
 ##A visualization practice of Stock in R using shiny
 if (!require(quantmod)) {
   stop("This app requires the quantmod package. To install it, run 'install.packages(\"quantmod\")'.\n")
@@ -15,15 +14,13 @@ library(TTR)
 library(gridExtra)
 library(grid)
 library(DT)
+library(rsconnect)
 symbols <- stockSymbols()
 symbols <- symbols[,1]
 
+deployApp("/Users/chunyiwang/R project/RStockVisualizationWeb")
 
-choices <-
-  c(
-    "Market Cap","Enterprise Value",
-    "Trailing P/E"
-  )
+
 
 indicators <-
   c(
@@ -32,81 +29,10 @@ indicators <-
     "Commodity Channel Index"
   )
 
+app <- shinyApp(ui, server)
 
-#get data
-if (interactive()) {
-  options(device.ask.default = FALSE)
-  ui <- dashboardPage(
-    dashboardHeader(title = "Stock Data dashboard"),
-    dashboardSidebar(
-      sidebarMenu(
-        menuItem(
-          "Stock",
-          tabName = "Stock"
-        )
-      )),
-    dashboardBody(
-      titlePanel("Visualize Stock Data"),
-      sidebarLayout(
-        sidebarPanel(
-          dateRangeInput("Range", "Choose Date Range:", start=Sys.Date() - 365,
-                         end= Sys.Date(), format = "yyyy-mm-dd"),
-          
-          selectizeInput('Name', label= 'Choose a stock', symbols, selected = NULL, multiple = FALSE,
-                         options = NULL),
-          
-          selectInput("Color", label = "Select Color", choices = c("white","black")),
-          
-     #     checkboxGroupInput("Indicators", "Key Indicators:",
-   #                          indicators),
-          selectInput("PlotType", label = "Plot type", choices = c("candlesticks", "matchsticks", "bars", "line")),
-          
-          submitButton("Submit")
-        ),
-        
-        mainPanel(
-          tabsetPanel(type="tab",tabPanel("Plot",plotOutput("Plot")),
-                      
-                      
-                      tabPanel("Return",
-                               selectInput("ReturnType", label = "Select Return Type", choices = c("yearly",'quarterly',"monthly", "daily")),
-                               
-                               submitButton("Apply"),
-                               br(),
-                               
-                               DT::dataTableOutput("Return")))
-          
-        )
-      )
-    )
-  )
-  
-  
-  server <- function(input, output) {
-    output$Plot <- renderPlot({
-      chartSeries(get(getSymbols(input$Name)), type = input$PlotType, 
-                  name=input$Name,
-                  theme=chartTheme(input$Color))
-      zoomChart(paste(input$Range, collapse = "::"))
-    })
-    
-    output$Return <- DT:: renderDataTable({
-      DT::datatable(
-        data.frame( a <- periodReturn(get(getSymbols(input$Name)),period=input$ReturnType,from='2007-01-01',to='2011-01-01')
-        )
-      )
-    })
-    
-    observe({
-      print(input$Name)
-      print(input$Tools)
-    })
-  }
-  
-  shinyApp(ui, server)
-}
+runApp(app)
 
 
 
 
-```

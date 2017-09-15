@@ -1,0 +1,10 @@
+name: rstockvisualizationweb
+title:
+username:
+account: jocelynwang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 214796
+bundleId: 983264
+url: https://jocelynwang.shinyapps.io/rstockvisualizationweb/
+when: 1505482328.4641
