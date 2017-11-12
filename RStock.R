@@ -1,5 +1,4 @@
 
-
 ##A visualization practice of Stock in R using shiny
 if (!require(quantmod)) {
   stop("This app requires the quantmod package. To install it, run 'install.packages(\"quantmod\")'.\n")
@@ -22,12 +21,6 @@ deployApp("/Users/chunyiwang/R project/RStockVisualizationWeb")
 
 
 
-indicators <-
-  c(
-    "Bollinger Bands",
-    "Weighted Moving Average",
-    "Commodity Channel Index"
-  )
 
 app <- shinyApp(ui, server)
 
