@@ -44,7 +44,7 @@ dashboardPage(
                       value = FALSE),
         checkboxInput("ta_wma", label = "Weighted Moving Average", 
                       value = FALSE),
-        checkboxInput("ta_bb", label = "Bolinger Bands", 
+        checkboxInput("ta_bb", label = "Bollinger Bands", 
                       value = FALSE),
         checkboxInput("ta_momentum", label = "Momentum", 
                       value = FALSE),

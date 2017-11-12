@@ -5,6 +5,6 @@ account: jocelynwang
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 214796
-bundleId: 1070752
+bundleId: 1070756
 url: https://jocelynwang.shinyapps.io/rstockvisualizationweb/
-when: 1510451295.96482
+when: 1510451839.76936
